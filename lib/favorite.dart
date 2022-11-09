@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Favorite extends StatefulWidget {
-  final bool isFavorited = true;
-  final int favoriteCount = 41;
+  final bool isFavorited;
+  final int favoriteCount;
 
   const Favorite(
       {Key key = const Key("any_key"),
-      required isFavorited,
-      required favoriteCount})
+      required this.isFavorited,
+      required this.favoriteCount})
       : super(key: key);
 
   _FavoriteState createState() => _FavoriteState(isFavorited, favoriteCount);
