@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:test_test/favoriteChangeNotifier.dart';
+import 'package:test_test/favoriteText.dart';
+import 'package:test_test/favoriteIcon.dart';
+import 'package:test_test/recipe.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'favorite.dart';
 
 class RecipeScreen extends StatelessWidget {
+  final Recipe recipe;
+  const RecipeScreen({
+    Key key = const Key("any_key"),
+    required this.recipe,
+  }) : super(key: key);
+
   final String title = "My Spots";
   final String subTitle = "Wood Spot";
   final String creator = "By JF-PS";
@@ -17,19 +28,20 @@ class RecipeScreen extends StatelessWidget {
           children: [
             Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Text(subTitle,
-                          style:
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(subTitle,
+                      style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                    ),
-                    Text(creator,
-                        style: TextStyle(color: Colors.grey[500], fontSize: 16)),
-                  ],
-                )),
-            Favorite(isFavorited: false, favoriteCount: 52),
+                ),
+                Text(recipe.user,
+                    style: TextStyle(color: Colors.grey[500], fontSize: 16)),
+              ],
+            )),
+            FavoriteIcon(),
+            FavoriteText(),
           ],
         ));
 
@@ -44,34 +56,37 @@ class RecipeScreen extends StatelessWidget {
     Widget descriptionSection = Container(
       padding: const EdgeInsets.all(32),
       child: Text(
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+        recipe.description,
         softWrap: true,
       ),
     );
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: ListView(children: [
-          // Image.asset(
-          //     'images/landscape.jpg',
-          //     width: 600,
-          //     height: 240,
-          //     fit: BoxFit.cover
-          // ),
-          CachedNetworkImage(
-            imageUrl:
-            'https://cdn.pixabay.com/photo/2017/06/30/21/28/landscape-2459857_640.jpg',
-            width: 600,
-            height: 240,
-            fit: BoxFit.cover,
-            placeholder: (context, url) =>
-                Center(child: CircularProgressIndicator()),
+    return ChangeNotifierProvider(
+      create: (context) => FavoriteChangeNotifier(recipe.isFavorite, recipe.favoriteCount),
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text(recipe.title),
           ),
-          titleSection,
-          buttonSection,
-          descriptionSection
-        ]));
+          body: ListView(children: [
+            // Image.asset(
+            //     'images/landscape.jpg',
+            //     width: 600,
+            //     height: 240,
+            //     fit: BoxFit.cover
+            // ),
+            CachedNetworkImage(
+              imageUrl: recipe.imageUrl,
+                  //'https://cdn.pixabay.com/photo/2017/06/30/21/28/landscape-2459857_640.jpg',
+              width: 600,
+              height: 240,
+              fit: BoxFit.cover,
+              placeholder: (context, url) =>
+                  Center(child: CircularProgressIndicator()),
+            ),
+            titleSection,
+            buttonSection,
+            descriptionSection
+          ])),
+    );
   }
 
   Column _buildButtonColumn(Color color, IconData icon, String label) {

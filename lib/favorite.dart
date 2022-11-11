@@ -17,7 +17,6 @@ class _FavoriteState extends State<Favorite> {
   bool _isFavorited;
   int _favoriteCount;
 
-
   _FavoriteState(this._isFavorited, this._favoriteCount);
 
   void _toggleFavorite() {
