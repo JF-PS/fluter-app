@@ -20,13 +20,24 @@ class RecipeItem extends StatelessWidget {
                   RecipeScreen(recipe: recipe),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
-                var begin = Offset(0.0, 1.0);
-                var end = Offset.zero;
-                var tween = Tween(begin: begin, end: end);
-                return SlideTransition(
-                    position: animation.drive(tween),
+                // var begin = Offset(0.0, 1.0);
+                // var end = Offset.zero;
+                // var curve = Curves.ease;
+                // var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                // return SlideTransition(
+                //     position: animation.drive(tween),
+                //     child: child
+                // );
+                animation = CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.ease
+                );
+
+                return FadeTransition(
+                    opacity: animation,
                     child: child
                 );
+                    
               },
             ));
       },
@@ -35,14 +46,17 @@ class RecipeItem extends StatelessWidget {
         elevation: 8,
         child: Row(
           children: [
-            CachedNetworkImage(
-              imageUrl: recipe.imageUrl,
-              placeholder: (context, url) =>
-                  Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
+            Hero(
+              tag: "imageRecipe" + recipe.title,
+              child: CachedNetworkImage(
+                imageUrl: recipe.imageUrl,
+                placeholder: (context, url) =>
+                    Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8),

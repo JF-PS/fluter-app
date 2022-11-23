@@ -70,14 +70,17 @@ class RecipeScreen extends StatelessWidget {
           body: ListView(children: [
             // Image.asset('images/landscape.jpg',
             //     width: 600, height: 240, fit: BoxFit.cover),
-            CachedNetworkImage(
-              imageUrl: recipe.imageUrl,
-              //'https://cdn.pixabay.com/photo/2017/06/30/21/28/landscape-2459857_640.jpg',
-              width: 600,
-              height: 240,
-              fit: BoxFit.cover,
-              placeholder: (context, url) =>
-                  Center(child: CircularProgressIndicator()),
+            Hero(
+              tag: "imageRecipe" + recipe.title,
+              child: CachedNetworkImage(
+                imageUrl: recipe.imageUrl,
+                //'https://cdn.pixabay.com/photo/2017/06/30/21/28/landscape-2459857_640.jpg',
+                width: 600,
+                height: 240,
+                fit: BoxFit.cover,
+                placeholder: (context, url) =>
+                    Center(child: CircularProgressIndicator()),
+              ),
             ),
             titleSection,
             buttonSection,
