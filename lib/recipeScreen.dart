@@ -61,21 +61,18 @@ class RecipeScreen extends StatelessWidget {
       ),
     );
     return ChangeNotifierProvider(
-      create: (context) => FavoriteChangeNotifier(recipe.isFavorite, recipe.favoriteCount),
+      create: (context) =>
+          FavoriteChangeNotifier(recipe.isFavorite, recipe.favoriteCount),
       child: Scaffold(
           appBar: AppBar(
             title: Text(recipe.title),
           ),
           body: ListView(children: [
-            // Image.asset(
-            //     'images/landscape.jpg',
-            //     width: 600,
-            //     height: 240,
-            //     fit: BoxFit.cover
-            // ),
+            // Image.asset('images/landscape.jpg',
+            //     width: 600, height: 240, fit: BoxFit.cover),
             CachedNetworkImage(
               imageUrl: recipe.imageUrl,
-                  //'https://cdn.pixabay.com/photo/2017/06/30/21/28/landscape-2459857_640.jpg',
+              //'https://cdn.pixabay.com/photo/2017/06/30/21/28/landscape-2459857_640.jpg',
               width: 600,
               height: 240,
               fit: BoxFit.cover,
