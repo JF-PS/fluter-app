@@ -13,8 +13,22 @@ class RecipeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => RecipeScreen(recipe: recipe,)));
+        Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  RecipeScreen(recipe: recipe),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                var begin = Offset(0.0, 1.0);
+                var end = Offset.zero;
+                var tween = Tween(begin: begin, end: end);
+                return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child
+                );
+              },
+            ));
       },
       child: Card(
         margin: const EdgeInsets.all(8),
